@@ -4,10 +4,10 @@ open class MenuScreen() {
     val ekranPrzedmiotu = ItemScreen(ekranEkwipunku);
 
     var option = 0;
-    open var options: List<Int> = listOf(1,2,9);
+    var options: List<Int> = listOf(1,2,9);
 
 
-    open fun getOption(){
+    fun getOption(){
         println("Wybierz jedna z opcji")
         println("1. Wykuj przedmiot");
         println("2. Pokaz ekwipunek");
@@ -24,7 +24,7 @@ open class MenuScreen() {
         }
     }
 
-    open fun whichOption(optionParam: Int){
+    fun whichOption(optionParam: Int){
         when(optionParam){
             1 -> println("Wykuwanie przedmiotu");
             2 -> {

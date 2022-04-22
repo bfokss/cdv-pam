@@ -1,4 +1,4 @@
-class Equipment {
+class Equipment() {
 
     var itemek = Item("Miecz", "Potężny mieczor", "Mieczor potęgi")
     var items = mutableListOf<Item>(itemek);
