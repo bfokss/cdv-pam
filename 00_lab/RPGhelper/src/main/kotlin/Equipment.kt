@@ -1,13 +1,15 @@
-class Equipment(equipment: MutableList<Item>) {
+class Equipment(ekwipunek: MutableList<Item>) {
 
     var menuOption = 0;
     var menuOptions = listOf<Int>(1,2)
     var itemMenuOption = 0;
     var itemMenuOptions = listOf<Int>(1,2,7,3)
 
-    var equipment = equipment;
+    var equipment = ekwipunek;
 
-    fun showAll(){
+
+    // EQUIPMENT FUNCTIONS
+    fun showItems(){
         if (equipment.isEmpty()){
             println("Ekwipunek jest pusty!");
             println("Aby dodac cos do ekwipunku udaj sie do Kuzni!");
@@ -19,8 +21,42 @@ class Equipment(equipment: MutableList<Item>) {
         }
     }
 
+    fun deleteItem(itemIndex: Int){
+        println("Przedmiot o nazwie '${equipment[itemIndex].name}' zostal usuniety!")
+        equipment.removeAt(itemIndex);
+    }
+
+    fun getItemIndex(): Int{
+        var itemIndex = 0;
+        while (true){
+            print("Numer przedmiotu: ");
+            try {
+                itemIndex = readln().toInt()
+                itemIndex = itemIndex - 1;
+                if (itemIndex in equipment.indices){
+                    break;
+                }
+                else{
+                    println("----------------------------------------");
+                    println("BLAD: Nie ma przedmiotu o takim numerze!");
+                    println("----------------------------------------");
+                }
+
+            }
+            catch (e: Exception){
+                println("-------------------------");
+                println("BLAD: Podano zla wartosc!");
+                println("-------------------------");
+            }
+        }
+        return itemIndex;
+    }
+    // EQUIPMENT FUNCTIONS
+
+
+    // EQUIPMENT SCREEN FUNCTIONS
     fun equipmentOptions(){
-        showAll();
+        showItems();
         if (equipment.isEmpty()){
             println("--------------------------------");
             println("Opcje: ")
@@ -73,6 +109,35 @@ class Equipment(equipment: MutableList<Item>) {
         }
     }
 
+    fun equipmentMenu(){
+        println("================================");
+        println("============ Plecak ============");
+        println("================================");
+        equipmentOptions();
+        equipmentGetOption();
+        when(menuOption){
+            1-> {
+                var itemIndex = getItemIndex();
+                itemActionMenu(itemIndex);
+            };
+            2-> {
+                println("----- Wracam do menu -----")
+            };
+        }
+    }
+    // EQUIPMENT SCREEN FUNCTIONS
+
+
+    // ITEM SCREEN FUNCTIONS
+    fun itemOptions(){
+        println("--------------------------------");
+        println("Opcje: ")
+        println("1. Pokaz informacje o przedmiocie")
+        println("2. Uzyj przedmiotu")
+        println("7. Usun przedmiot")
+        println("3. Cofnij")
+        println("--------------------------------");
+    }
     fun itemGetOption(){
         while (true){
             try {
@@ -96,46 +161,12 @@ class Equipment(equipment: MutableList<Item>) {
         }
     }
 
-    fun itemOptions(){
-        println("--------------------------------");
-        println("Opcje: ")
-        println("1. Pokaz informacje o przedmiocie")
-        println("2. Uzyj przedmiotu")
-        println("7. Usun przedmiot")
-        println("3. Cofnij")
-        println("--------------------------------");
-    }
-
-    fun getItemIndex(): Int{
-        var itemIndex = 0;
-        while (true){
-            print("Numer przedmiotu: ");
-            try {
-                 itemIndex = readln().toInt()
-                itemIndex = itemIndex - 1;
-                if (itemIndex in equipment.indices){
-                    break;
-                }
-                else{
-                    println("----------------------------------------");
-                    println("BLAD: Nie ma przedmiotu o takim numerze!");
-                    println("----------------------------------------");
-                }
-
-            }
-            catch (e: Exception){
-                println("-------------------------");
-                println("BLAD: Podano zla wartosc!");
-                println("-------------------------");
-            }
-        }
-        return itemIndex;
-    }
 
     fun itemActionMenu(itemIndex: Int){
 
         itemOptions();
         itemGetOption();
+
         when(itemMenuOption){
             1->{
                 equipment[itemIndex].showItemInfo();
@@ -147,6 +178,7 @@ class Equipment(equipment: MutableList<Item>) {
             2->{
                 if (equipment[itemIndex].durability > 0){
                     equipment[itemIndex].useItem();
+                    println(equipment[itemIndex]);
                     println("--------------------------------");
                     println("Nacisnij dowolny przycisk zeby powrocic do opcji przedmiotu...");
                     readln();
@@ -156,15 +188,14 @@ class Equipment(equipment: MutableList<Item>) {
                     equipment[itemIndex].useItem();
                     println("--------------------------------");
                     println("Nacisnij dowolny przycisk zeby powrocic do Plecaka...");
-                    equipment.removeAt(itemIndex);
+                    deleteItem(itemIndex);
                     readln();
                     equipmentMenu();
                 }
 
             }
             7->{
-                println("Przedmiot o nazwie '${equipment[itemIndex].name}' zostal usuniety!")
-                equipment.removeAt(itemIndex);
+                deleteItem(itemIndex);
                 println("--------------------------------");
                 println("Nacisnij dowolny przycisk zeby powrocic do Plecaka...");
                 readln();
@@ -179,21 +210,5 @@ class Equipment(equipment: MutableList<Item>) {
         }
     }
 
-    fun equipmentMenu(){
-        println("================================");
-        println("============ Plecak ============");
-        println("================================");
-        equipmentOptions();
-        equipmentGetOption();
-        when(menuOption){
-            1-> {
-                var itemIndex = getItemIndex();
-                itemActionMenu(itemIndex);
-            };
-            2-> {
-                println("----- Wracam do menu -----")
-            };
-        }
-    }
-
+    // ITEM SCREEN FUNCTIONS
 }

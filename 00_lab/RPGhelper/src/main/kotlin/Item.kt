@@ -17,7 +17,7 @@ open class Item(itemType: String, itemName: String, itemDescription: String) {
         println("Wytrzymalosc: $durability/$maxDurability| Ilosc uzyc: $useCount")
     }
 
-    fun useItem(){
+    open fun useItem(){
         println("Uzywasz przedmiotu!")
 
         if (durability <= 0){
@@ -30,7 +30,4 @@ open class Item(itemType: String, itemName: String, itemDescription: String) {
             println("Zmniejszono wytrzymalosc przedmiotu o $durabilityLoss");
         }
     }
-
-
-
 }

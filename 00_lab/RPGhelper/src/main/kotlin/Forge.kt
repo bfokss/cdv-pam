@@ -2,7 +2,11 @@ class Forge(equipment: MutableList<Item>) {
     var menuOption = 0;
     var menuOptions = listOf<Int>(1,2)
 
+    var typeIndex = 0;
+    var createdItemType = "";
+    var createdItemName = "";
     var itemType = "";
+    var createdItemDescription = "";
     var itemTypes = listOf<String>("Miecz", "Rozdzka", "Helm", "Zbroja", "Naramienniki", "Rekawica", "Spodnie", "Buty", "Pierscien", "Naszyjnik" )
 
     var equipment = equipment;
@@ -29,7 +33,7 @@ class Forge(equipment: MutableList<Item>) {
             println("Wybierz typ przedmiotu z listy powyzej: ");
             print("Typ: ");
             try {
-                var typeIndex = readln().toInt()
+                typeIndex = readln().toInt()
                 typeIndex = typeIndex - 1;
                 itemType = itemTypes[typeIndex];
                 break;
@@ -42,16 +46,31 @@ class Forge(equipment: MutableList<Item>) {
         }
     }
 
-    fun createItem(itemType: String): Item{
-        var createdItemType = itemType;
-        println("Nazwij przedmiot: ");
-        print("Nazwa: ");
-        var createdItemName = getStringParam();
-        println("Opisz przedmiot: ");
-        print("Opis: ")
-        var createdItemDescription = getStringParam();
-        var createdItem = Item(createdItemType, createdItemName, createdItemDescription)
-        return createdItem;
+    fun getItemInfo(){
+        when(typeIndex){
+            1 -> {
+                createdItemType = itemType;
+                println("Nazwij miecz: ");
+                print("Nazwa: ");
+                createdItemName = getStringParam();
+                println("Opisz miecz: ");
+                print("Opis: ")
+                createdItemDescription = getStringParam();
+
+
+            }
+            else -> {
+                createdItemType = itemType;
+                println("Nazwij miecz: ");
+                print("Nazwa: ");
+                createdItemName = getStringParam();
+                println("Opisz miecz: ");
+                print("Opis: ")
+                createdItemDescription = getStringParam();
+
+            }
+        }
+
     }
 
     fun forgeOptions(){
@@ -83,17 +102,24 @@ class Forge(equipment: MutableList<Item>) {
             if (userOption in menuOptions){
                 when(userOption){
                     1 -> {
+                        //TWORZENIE PRZEDMIOTU
                         getType();
                         if (itemType in itemTypes){
-                            var craftedItem = createItem(itemType);
-                            println("================================");
-                            println(" Pomyslnie utworzono przedmiot! ");
-                            println("================================");
-                            craftedItem.showItemInfo();
-                            equipment.add(craftedItem);
-                            println("Nacisnij dowolny przycisk zeby powrocic do Kuzni...");
-                            readln();
-                            forgeMenu();
+                            when(typeIndex){
+                                1->{
+                                    getItemInfo();
+                                    var createdItem = Sword(createdItemType, createdItemName, createdItemDescription)
+                                    println("================================");
+                                    println(" Pomyslnie utworzono przedmiot! ");
+                                    println("================================");
+                                    createdItem.showItemInfo();
+                                    equipment.add(createdItem);
+                                    println("Nacisnij dowolny przycisk zeby powrocic do Kuzni...");
+                                    readln();
+                                    forgeMenu();
+                                }
+                            }
+
                         }
                         else{
                             println("-------------------------------------");
