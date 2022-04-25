@@ -1,8 +1,6 @@
 class Equipment(paramItemsList: MutableList<Item>):IError {
 
     var equipment = paramItemsList;
-    var itemek = Sword("Miecz", "Mieczorski","Mieczaczek");
-    var lol = 0;
 
     var equipmentOption = 0;
     var equipmentOptions = listOf<Int>(1,2);
@@ -10,10 +8,6 @@ class Equipment(paramItemsList: MutableList<Item>):IError {
     var itemOptions = listOf<Int>(1,2,7,3);
 
     fun showItems(){
-        if (lol == 0){
-            equipment.add(itemek);
-            lol += 1;
-        }
         if (equipment.isEmpty()){
             println("Ekwipunek jest pusty!");
             println("Aby dodac cos do ekwipunku udaj sie do Kuzni!");

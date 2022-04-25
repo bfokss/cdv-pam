@@ -214,10 +214,30 @@ class Forge(paramItemsList: MutableList<Item>):IError {
                 var itemInfo = getItemInfo();
                 var createdItem = Ring(itemInfo[0],itemInfo[1],itemInfo[2]);
                 equipment.add(createdItem);
-                if (createdItem.itemName == "Jeszcze jak"){
+                if (createdItem.itemName.contains("Jeszcze jak")){
                     createdItem.maxItemDurability=2137;
                     createdItem.itemDurability=2137;
                 }
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            9->{
+                var itemInfo = getItemInfo();
+                var createdItem = Necklace(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                if (createdItem.itemName.contains("Kosior")){
+                    createdItem.maxItemDurability=2137;
+                    createdItem.itemDurability=2137;
+                }
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            else->{
+                var itemInfo = getItemInfo();
+                var createdItem = Item(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
                 createdItem.showInfo();
                 pressButtonForge();
                 menu();
