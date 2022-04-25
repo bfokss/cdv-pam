@@ -1,15 +1,13 @@
-class Forge(equipment: MutableList<Item>) {
-    var menuOption = 0;
-    var menuOptions = listOf<Int>(1,2)
+class Forge(paramItemsList: MutableList<Item>):IError {
 
-    var typeIndex = 0;
-    var createdItemType = "";
-    var createdItemName = "";
-    var itemType = "";
-    var createdItemDescription = "";
-    var itemTypes = listOf<String>("Miecz", "Rozdzka", "Helm", "Zbroja", "Naramienniki", "Rekawica", "Spodnie", "Buty", "Pierscien", "Naszyjnik" )
+    var equipment = paramItemsList;
 
-    var equipment = equipment;
+    var forgeOption = 0;
+    var forgeOptions = listOf<Int>(1,2);
+
+    var itemTypeIndex = 0;
+
+    var itemTypes = listOf<String>("Miecz", "Rozdzka", "Helm", "Zbroja", "Naramienniki", "Rekawice", "Spodnie", "Buty", "Pierscien", "Naszyjnik" );
 
     fun getStringParam(): String{
         var stringParam = "";
@@ -17,139 +15,211 @@ class Forge(equipment: MutableList<Item>) {
             stringParam = readln().toString();
         }
         catch (e: Exception){
-            println("-------------------------");
-            println("BLAD: Podano zla wartosc!");
-            println("-------------------------");
+            valueError();
         }
         return stringParam;
     }
 
-    fun getType(){
-        while (true){
-            println("Lista przedmiotow do wytworzenia:")
-            for (type in itemTypes){
-                println("[${itemTypes.indexOf(type)+1}]. $type")
-            }
-            println("Wybierz typ przedmiotu z listy powyzej: ");
-            print("Typ: ");
-            try {
-                typeIndex = readln().toInt()
-                typeIndex = typeIndex - 1;
-                itemType = itemTypes[typeIndex];
-                break;
-            }
-            catch (e: Exception){
-                println("-------------------------");
-                println("BLAD: Podano zla wartosc!");
-                println("-------------------------");
-            }
-        }
+    fun pressButtonForge(){
+        println("________________________________");
+        println("Nacisnij dowolny przycisk zeby powrocic do Kuzni...");
+        readln();
     }
 
-    fun getItemInfo(){
-        when(typeIndex){
-            1 -> {
-                createdItemType = itemType;
-                println("Nazwij miecz: ");
-                print("Nazwa: ");
-                createdItemName = getStringParam();
-                println("Opisz miecz: ");
-                print("Opis: ")
-                createdItemDescription = getStringParam();
 
+    fun forgeHello(){
+        println("================================");
+        println("============ Kuznia ============");
+        println("================================");
+    }
 
-            }
-            else -> {
-                createdItemType = itemType;
-                println("Nazwij miecz: ");
-                print("Nazwa: ");
-                createdItemName = getStringParam();
-                println("Opisz miecz: ");
-                print("Opis: ")
-                createdItemDescription = getStringParam();
-
-            }
-        }
-
+    fun forgeGoodbye(){
+        println("================================");
+        println("======= Wracam do menu...=======");
+        println("================================");
     }
 
     fun forgeOptions(){
-        println("--------------------------------");
+        println("________________________________");
         println("Opcje: ")
         println("1. Wytworz przedmiot")
         println("2. Cofnij")
-        println("--------------------------------");
+        println("________________________________");
     }
 
     fun forgeGetOption(){
         while (true){
             try {
                 print("Opcja: ")
-                menuOption = readln().toInt();
-                println("--------------------------------");
-                forgeCheckOption(menuOption);
-                break;
+                forgeOption = readln().toInt();
+                println("________________________________");
+                if (forgeOption in forgeOptions){
+                    break;
+                }
+                else{
+                    optionError();
+                    forgeOptions();
+                }
+
             }
             catch (e: Exception){
-                println("-------------------------");
-                println("BLAD: Podano zla wartosc!");
-                println("-------------------------");
+                valueError();
+                forgeOptions();
             }
         }
     }
 
-    fun forgeCheckOption(userOption: Int){
-            if (userOption in menuOptions){
-                when(userOption){
-                    1 -> {
-                        //TWORZENIE PRZEDMIOTU
-                        getType();
-                        if (itemType in itemTypes){
-                            when(typeIndex){
-                                1->{
-                                    getItemInfo();
-                                    var createdItem = Sword(createdItemType, createdItemName, createdItemDescription)
-                                    println("================================");
-                                    println(" Pomyslnie utworzono przedmiot! ");
-                                    println("================================");
-                                    createdItem.showItemInfo();
-                                    equipment.add(createdItem);
-                                    println("Nacisnij dowolny przycisk zeby powrocic do Kuzni...");
-                                    readln();
-                                    forgeMenu();
-                                }
-                            }
+    fun getItemType(){
+        while (true) {
+            println("Lista przedmiotow do wytworzenia:")
+            for (type in itemTypes) {
+                println("[${itemTypes.indexOf(type) + 1}]. $type")
+            }
+            println("Wybierz typ przedmiotu z listy powyzej: ");
+            print("Typ: ");
+            try {
+                itemTypeIndex = readln().toInt()
+                itemTypeIndex = itemTypeIndex - 1;
+                break;
+            } catch (e: Exception) {
+                valueError();
+                getItemType();
+            }
+        }
+    }
 
-                        }
-                        else{
-                            println("-------------------------------------");
-                            println("BLAD: Nie ma takiego typu przedmiotu!");
-                            println("-------------------------------------");
-                            getType();
-                        }
-                    };
-                    2 -> {
-                        println("----- Wracam do menu -----")
-                    };
-                }
+    fun getItemInfo(): MutableList<String>{
+        var itemInfoList = mutableListOf<String>()
+        var createdItemType = itemTypes[itemTypeIndex];
+        itemInfoList.add(createdItemType);
+        println("Wybrany typ przedmiotu to: $createdItemType");
+        println("Nazwij przedmiot: ");
+        print("Nazwa: ");
+        var createdItemName = getStringParam();
+        itemInfoList.add(createdItemName);
+        println("Opisz przedmiot: ");
+        print("Opis: ");
+        var createdItemDescription = getStringParam();
+        itemInfoList.add(createdItemDescription);
+        return itemInfoList;
+    }
+
+    fun createItem(){
+        println("________________________________");
+        println("____ Wytwarzanie przedmiotu ____");
+        println("________________________________");
+        //itemInfo[0] -- Item type
+        //itemInfo[1] -- Item name
+        //itemInfo[2] -- Item description
+        getItemType();
+        when(itemTypeIndex){
+            0->{
+                var itemInfo = getItemInfo();
+                var createdItem = Sword(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            1->{
+                var itemInfo = getItemInfo();
+                var createdItem = Wand(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            2->{
+                var itemInfo = getItemInfo();
+                var createdItem = Helmet(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            3->{
+                var itemInfo = getItemInfo();
+                var createdItem = Armor(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            4->{
+                var itemInfo = getItemInfo();
+                var createdItem = ShoulderPads(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            5->{
+                var itemInfo = getItemInfo();
+                var createdItem = Gloves(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            6->{
+                var itemInfo = getItemInfo();
+                var createdItem = Pants(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            7->{
+                var itemInfo = getItemInfo();
+                var createdItem = Boots(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            8->{
+                var itemInfo = getItemInfo();
+                var createdItem = Ring(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            9->{
+                var itemInfo = getItemInfo();
+                var createdItem = Necklace(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+            else->{
+                var itemInfo = getItemInfo();
+                var createdItem = Item(itemInfo[0],itemInfo[1],itemInfo[2]);
+                equipment.add(createdItem);
+                createdItem.showInfo();
+                pressButtonForge();
+                menu();
+            };
+        }
+    }
+
+    fun forgeAction(paramForgeOption: Int){
+        when (paramForgeOption) {
+            1 -> {
+                createItem();
             }
-            else{
-                println("-------------------------");
-                println("BLAD: Nie ma takiej opcji!");
-                println("-------------------------");
-                forgeGetOption();
+            2 -> {
+                forgeGoodbye();
             }
+        }
     }
 
 
-    fun forgeMenu(){
-        println("================================");
-        println("============ Kuznia ============");
-        println("================================");
+    fun menu(){
+        forgeHello();
         forgeOptions();
         forgeGetOption();
-
-
-
+        forgeAction(forgeOption);
     }
 }

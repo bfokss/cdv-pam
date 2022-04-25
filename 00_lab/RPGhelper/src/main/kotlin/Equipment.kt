@@ -1,29 +1,105 @@
-class Equipment(ekwipunek: MutableList<Item>) {
+class Equipment(paramItemsList: MutableList<Item>):IError {
 
-    var menuOption = 0;
-    var menuOptions = listOf<Int>(1,2)
-    var itemMenuOption = 0;
-    var itemMenuOptions = listOf<Int>(1,2,7,3)
+    var equipment = paramItemsList;
 
-    var equipment = ekwipunek;
+    var equipmentOption = 0;
+    var equipmentOptions = listOf<Int>(1,2);
+    var itemOption = 0;
+    var itemOptions = listOf<Int>(1,2,7,3);
 
-
-    // EQUIPMENT FUNCTIONS
     fun showItems(){
         if (equipment.isEmpty()){
             println("Ekwipunek jest pusty!");
             println("Aby dodac cos do ekwipunku udaj sie do Kuzni!");
         }
         else{
+            println("Lista przedmiotow:");
             for (item in equipment){
-                println("[${equipment.indexOf(item)+1}]. ${item.type} - ${item.name}");
+                println("[${equipment.indexOf(item)+1}]. ${item.itemType} - ${item.itemName}");
             }
         }
     }
 
-    fun deleteItem(itemIndex: Int){
-        println("Przedmiot o nazwie '${equipment[itemIndex].name}' zostal usuniety!")
-        equipment.removeAt(itemIndex);
+    fun showItem(paramItemIndex: Int){
+        equipment[paramItemIndex].showInfo();
+    }
+
+    fun deleteItem(paramItemIndex: Int){
+        equipment[paramItemIndex].destroyItem();
+        equipment.removeAt(paramItemIndex);
+    }
+
+    fun pressButtonBackpack(){
+        println("________________________________");
+        println("Nacisnij dowolny przycisk zeby powrocic do Plecaka...");
+        readln();
+    }
+
+    fun pressButtonItem(){
+        println("________________________________");
+        println("Nacisnij dowolny przycisk zeby powrocic do opcji przedmiotu...");
+        readln();
+    }
+
+    fun equipmentHello(){
+        println("================================");
+        println("============ Plecak ============");
+        println("================================");
+    }
+
+    fun equipmentGoodbye(){
+        println("================================");
+        println("======= Wracam do menu...=======");
+        println("================================");
+    }
+
+    fun equipmentOptions(){
+        showItems();
+        if (equipment.isEmpty()){
+            println("________________________________");
+            println("Opcje: ")
+            println("2. Cofnij")
+            println("________________________________");
+        }
+        else{
+            println("________________________________");
+            println("Opcje: ")
+            println("1. Wybierz przedmiot")
+            println("2. Cofnij")
+            println("________________________________");
+        }
+    }
+
+    fun equipmentGetOption(){
+        while (true){
+            try {
+                print("Opcja: ")
+                equipmentOption = readln().toInt();
+                println("________________________________");
+                if (equipment.isEmpty()){
+                    if (equipmentOption == 2){
+                        break;
+                    }
+                    else{
+                        optionError();
+                        equipmentOptions();
+                    }
+                }
+                else{
+                    if (equipmentOption in equipmentOptions){
+                        break;
+                    }
+                    else{
+                        optionError();
+                        equipmentOptions();
+                    }
+                }
+            }
+            catch (e: Exception){
+                valueError();
+                equipmentOptions();
+            }
+        }
     }
 
     fun getItemIndex(): Int{
@@ -37,178 +113,91 @@ class Equipment(ekwipunek: MutableList<Item>) {
                     break;
                 }
                 else{
-                    println("----------------------------------------");
-                    println("BLAD: Nie ma przedmiotu o takim numerze!");
-                    println("----------------------------------------");
+                    itemIndexError();
+                    showItems();
                 }
 
             }
             catch (e: Exception){
-                println("-------------------------");
-                println("BLAD: Podano zla wartosc!");
-                println("-------------------------");
+                valueError();
+                showItems();
             }
         }
         return itemIndex;
     }
-    // EQUIPMENT FUNCTIONS
 
-
-    // EQUIPMENT SCREEN FUNCTIONS
-    fun equipmentOptions(){
-        showItems();
-        if (equipment.isEmpty()){
-            println("--------------------------------");
-            println("Opcje: ")
-            println("2. Cofnij")
-            println("--------------------------------");
-        }
-        else{
-            println("--------------------------------");
-            println("Opcje: ")
-            println("1. Wybierz przedmiot")
-            println("2. Cofnij")
-            println("--------------------------------");
-        }
-
-    }
-
-    fun equipmentGetOption(){
-        while (true){
-            try {
-                print("Opcja: ")
-                menuOption = readln().toInt();
-                println("--------------------------------");
-                if (equipment.isEmpty()){
-                    if (menuOption == 2){
-                        break;
-                    }
-                    else{
-                        println("--------------------------");
-                        println("BLAD: Nie ma takiej opcji!");
-                        println("--------------------------");
-                    }
-                }
-                else{
-                    if (menuOption in menuOptions){
-                        break;
-                    }
-                    else{
-                        println("--------------------------");
-                        println("BLAD: Nie ma takiej opcji!");
-                        println("--------------------------");
-                    }
-                }
-
-            }
-            catch (e: Exception){
-                println("-------------------------");
-                println("BLAD: Podano zla wartosc!");
-                println("-------------------------");
-            }
-        }
-    }
-
-    fun equipmentMenu(){
-        println("================================");
-        println("============ Plecak ============");
-        println("================================");
-        equipmentOptions();
-        equipmentGetOption();
-        when(menuOption){
-            1-> {
-                var itemIndex = getItemIndex();
-                itemActionMenu(itemIndex);
-            };
-            2-> {
-                println("----- Wracam do menu -----")
-            };
-        }
-    }
-    // EQUIPMENT SCREEN FUNCTIONS
-
-
-    // ITEM SCREEN FUNCTIONS
     fun itemOptions(){
-        println("--------------------------------");
+        println("________________________________");
         println("Opcje: ")
         println("1. Pokaz informacje o przedmiocie")
         println("2. Uzyj przedmiotu")
         println("7. Usun przedmiot")
         println("3. Cofnij")
-        println("--------------------------------");
+        println("________________________________");
     }
+
     fun itemGetOption(){
         while (true){
             try {
                 print("Opcja: ")
-                itemMenuOption = readln().toInt();
-                println("--------------------------------");
-                if (itemMenuOption in itemMenuOptions){
+                itemOption = readln().toInt();
+                println("________________________________");
+                if (itemOption in itemOptions){
                     break;
                 }
                 else{
-                    println("--------------------------");
-                    println("BLAD: Nie ma takiej opcji!");
-                    println("--------------------------");
+                    optionError();
+                    itemOptions();
                 }
             }
             catch (e: Exception){
-                println("-------------------------");
-                println("BLAD: Podano zla wartosc!");
-                println("-------------------------");
+                valueError();
+                itemOptions();
             }
         }
     }
 
-
-    fun itemActionMenu(itemIndex: Int){
-
+    fun itemAction(paramItemIndex: Int){
         itemOptions();
         itemGetOption();
-
-        when(itemMenuOption){
+        when(itemOption){
             1->{
-                equipment[itemIndex].showItemInfo();
-                println("--------------------------------");
-                println("Nacisnij dowolny przycisk zeby powrocic do opcji przedmiotu...");
-                readln();
-                itemActionMenu(itemIndex);
+                showItem(paramItemIndex);
+                pressButtonItem();
+                itemAction(paramItemIndex);
             };
             2->{
-                if (equipment[itemIndex].durability > 0){
-                    equipment[itemIndex].useItem();
-                    println(equipment[itemIndex]);
-                    println("--------------------------------");
-                    println("Nacisnij dowolny przycisk zeby powrocic do opcji przedmiotu...");
-                    readln();
-                    itemActionMenu(itemIndex);
-                }
-                else{
-                    equipment[itemIndex].useItem();
-                    println("--------------------------------");
-                    println("Nacisnij dowolny przycisk zeby powrocic do Plecaka...");
-                    deleteItem(itemIndex);
-                    readln();
-                    equipmentMenu();
-                }
-
-            }
-            7->{
-                deleteItem(itemIndex);
-                println("--------------------------------");
-                println("Nacisnij dowolny przycisk zeby powrocic do Plecaka...");
-                readln();
-                equipmentMenu();
+                equipment[paramItemIndex].useItem();
+                pressButtonItem();
+                itemAction(paramItemIndex);
             };
+            7->{
+                deleteItem(paramItemIndex);
+                pressButtonBackpack();
+                menu();
+            }
             3->{
-                println("-----------------------------");
-                println("----- Wracam do plecaka -----");
-                println("-----------------------------");
-                equipmentMenu();
+                menu();
             }
         }
     }
 
-    // ITEM SCREEN FUNCTIONS
+    fun equipmentAction(paramEquipmentOption: Int){
+        when (paramEquipmentOption) {
+            1 -> {
+                var itemIndex = getItemIndex();
+                itemAction(itemIndex);
+            }
+            2 -> {
+                equipmentGoodbye();
+            }
+        }
+    }
+
+    fun menu(){
+        equipmentHello();
+        equipmentOptions();
+        equipmentGetOption();
+        equipmentAction(equipmentOption);
+    }
 }

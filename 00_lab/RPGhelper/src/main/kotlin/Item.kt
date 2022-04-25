@@ -1,33 +1,21 @@
 import kotlin.random.Random
 
-open class Item(itemType: String, itemName: String, itemDescription: String) {
+open class Item(paramItemType: String, paramItemName: String, paramItemDescription: String): ISpecial {
+    var itemType = paramItemType;
+    open var itemName = paramItemName;
+    var itemDescription = paramItemDescription;
+    var maxItemDurability = Random.nextInt(9,150);
+    var itemDurability = maxItemDurability;
+    var itemDurabilityLoss = 10;
+    var itemUseCount = 0;
 
-    var type = itemType;
-    var description = itemDescription;
-    var name = itemName;
-    var maxDurability = Random.nextInt(9,150);
-    var durability = maxDurability;
-    var durabilityLoss = 10;
-    var useCount = 0;
 
-    fun showItemInfo() {
-        println("Przedmiot: $name");
-        println("Opis: $description");
-        println("Typ przedmiotu: $type");
-        println("Wytrzymalosc: $durability/$maxDurability| Ilosc uzyc: $useCount")
+    open fun showInfo(){
     }
 
     open fun useItem(){
-        println("Uzywasz przedmiotu!")
+    }
 
-        if (durability <= 0){
-            println("Przedniot: $name ulegl zniszczeniu!")
-
-        }
-        else {
-            durability -= durabilityLoss;
-            useCount += 1;
-            println("Zmniejszono wytrzymalosc przedmiotu o $durabilityLoss");
-        }
+    open fun destroyItem(){
     }
 }

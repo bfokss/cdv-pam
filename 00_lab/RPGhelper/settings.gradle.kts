@@ -1,3 +1,3 @@
 
-rootProject.name = "RPGhelper"
+rootProject.name = "rpgHelper2"
 
