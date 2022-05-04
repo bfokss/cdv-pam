@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Wakacjoszukacz</string>
+    <string name="get_name">Podaj swoje imię:</string>
+    <string name="text_get_name"> Imię </string>
+    <string name="button_get_place"> Sprawdź miejsce </string>
+    <string name="text_place_name"> Nie znaleziono miejsca </string>
+    <string name="text_place_description"> Opis miejsca </string>
+</resources>
