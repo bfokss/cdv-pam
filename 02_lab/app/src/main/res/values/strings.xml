@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">messageCipher</string>
+    <string name="text_display_message">Pass message that you want to encrypt:</string>
+    <string name="text_get_message">ex. Kitty</string>
+    <string name="text_display_cipher">Choose type of encryption:</string>
+    <string name="button_encrypt">Encrypt</string>
+    <string name="text_error"></string>
+    <string-array name="get_cipher">
+        <item>P0K3M0N</item>
+        <item>SpOnGeBoB cAsE</item>
+    </string-array>
+    <string name="title_activity_encrypted_message">EncryptedMessage</string>
+    <string name="text_info_message">Your message: </string>
+    <string name="text_show_message">Message </string>
+    <string name="text_info_enc_message">Encrypted message: </string>
+    <string name="text_show_enc_message">Encrypted Message </string>
+    <string name="switch_message">Share original message? </string>
+    <string name="button_share_cipher">Share </string>
+</resources>

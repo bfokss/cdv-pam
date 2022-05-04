@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="36dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/text_display_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/text_display_message"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/text_get_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="textPersonName"
+        android:hint="@string/text_get_message" />
+
+    <TextView
+        android:id="@+id/text_display_cipher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="20sp"
+        android:text="@string/text_display_cipher" />
+
+    <Spinner
+        android:id="@+id/get_cipher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:entries="@array/get_cipher"/>
+
+    <Button
+        android:id="@+id/button_encrypt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/button_encrypt" />
+
+    <TextView
+        android:id="@+id/text_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="20sp"
+        android:text="@string/text_error" />
+
+</LinearLayout>
